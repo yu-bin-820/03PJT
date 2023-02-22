@@ -94,7 +94,7 @@ public class ProductDAO {
 			} else if (search.getSearchCondition().equals("2")) {
 				sql += " where PRICE like'" + search.getSearchKeyword()
 				+ "%'";
-	}
+			}
 		}
 		sql += " order by PROD_NO";
 
@@ -139,27 +139,28 @@ public class ProductDAO {
 		return map;
 	}
 
-		private int getTotalCount(String sql) throws Exception {
+	private int getTotalCount(String sql) throws Exception {
 			
-			sql = "SELECT COUNT(*) "+
-			          "FROM ( " +sql+ ") countTable";
+		sql = "SELECT COUNT(*) "+
+			         "FROM ( " +sql+ ") countTable";
 			
-			Connection con = DBUtil.getConnection();
-			PreparedStatement pStmt = con.prepareStatement(sql);
-			ResultSet rs = pStmt.executeQuery();
+		Connection con = DBUtil.getConnection();
+		PreparedStatement pStmt = con.prepareStatement(sql);
+		ResultSet rs = pStmt.executeQuery();
 			
-			int totalCount = 0;
-			if( rs.next() ){
-				totalCount = rs.getInt(1);
-			}
-			
-			pStmt.close();
-			con.close();
-			rs.close();
-			
-			return totalCount;
+		int totalCount = 0;
+		if( rs.next() ){
+			totalCount = rs.getInt(1);
 		}
-		private String makeCurrentPageSql(String sql , Search search){
+			
+		pStmt.close();
+		con.close();
+		rs.close();
+			
+		return totalCount;
+	}
+		
+		private String makeCurrentPageSql(String sql , Search search) throws Exception{
 			sql = 	"SELECT * "+ 
 						"FROM (		SELECT inner_table. * ,  ROWNUM AS row_seq " +
 										" 	FROM (	"+sql+" ) inner_table "+

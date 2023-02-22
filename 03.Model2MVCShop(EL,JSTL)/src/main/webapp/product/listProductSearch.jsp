@@ -159,11 +159,11 @@ function fncGetProductList(currentPage){
 		<tr class="ct_list_pop">
 			<td align="center">${i}</td>
 			<td></td>
-			<td align="Left"><a href="/getProduct.do?prodNo=${prodcut.prodNo}">${product.prodName }</a></td>
+			<td align="Left"><a href="/getProduct.do?prodNo=${product.prodNo}">${product.prodName }</a></td>
 			<td></td>
-			<td align="Left">${prodcut.prodPrice}</td>
+			<td align="Left">${product.price}</td>
 			<td></td>
-			<td align="Left">${prodcut.RegDate}	</td>
+			<td align="Left">${product.regDate}	</td>
 			<td></td>
 			<td align="Left">∆«∏≈¡ﬂ	</td>
 		</tr>

@@ -131,7 +131,7 @@ public class UserDao {
 		return map;
 	}
 
-	public void updateUser(User vo) throws Exception {
+	public void updateUser(User user) throws Exception {
 
 		Connection con = DBUtil.getConnection();
 
@@ -140,11 +140,11 @@ public class UserDao {
 								"WHERE user_id = ?";
 		
 		PreparedStatement pStmt = con.prepareStatement(sql);
-		pStmt.setString(1, vo.getUserName());
-		pStmt.setString(2, vo.getPhone());
-		pStmt.setString(3, vo.getAddr());
-		pStmt.setString(4, vo.getEmail());
-		pStmt.setString(5, vo.getUserId());
+		pStmt.setString(1, user.getUserName());
+		pStmt.setString(2, user.getPhone());
+		pStmt.setString(3, user.getAddr());
+		pStmt.setString(4, user.getEmail());
+		pStmt.setString(5, user.getUserId());
 		pStmt.executeUpdate();
 		
 		pStmt.close();

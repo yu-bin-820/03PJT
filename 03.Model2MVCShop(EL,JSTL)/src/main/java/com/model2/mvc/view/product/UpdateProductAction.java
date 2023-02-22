@@ -34,6 +34,8 @@ public class UpdateProductAction extends Action {
 		
 		product.setPrice(Integer.parseInt(request.getParameter("price")));
 		product.setFileName(request.getParameter("fileName"));
+		//¹ÙÀÎµù
+		
 		ProductService service = new ProductServiceImpl();
 		service.updateProduct(product);
 		System.out.println("EE"+product);
