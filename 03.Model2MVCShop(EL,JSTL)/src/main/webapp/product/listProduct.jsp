@@ -1,9 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
 <%-- /////////////////////// EL / JSTL 적용으로 주석 처리 ////////////////////////
-
 <%@ page import="java.util.*" %>
 <%@ page import="com.model2.mvc.service.domain.*" %>
 <%@ page import="com.model2.mvc.common.*" %>
@@ -16,8 +14,8 @@
 	//==> null 을 ""(nullString)으로 변경
 	String searchCondition = CommonUtil.null2str(search.getSearchCondition());
 	String searchKeyword = CommonUtil.null2str(search.getSearchKeyword());
+%>
 %> 	/////////////////////// EL / JSTL 적용으로 주석 처리 //////////////////////// --%>
-
 
 
 <html>
@@ -51,7 +49,11 @@ function fncGetProductList(currentPage){
 		<td background="/images/ct_ttl_img02.gif" width="100%" style="padding-left:10px;">
 			<table width="100%" border="0" cellspacing="0" cellpadding="0">
 				<tr>
-					<td width="93%" class="ct_ttl01">상품 관리	</td>
+					<td width="93%" class="ct_ttl01">
+					
+							상품 관리
+					
+					</td>
 				</tr>
 			</table>
 		</td>
@@ -66,20 +68,17 @@ function fncGetProductList(currentPage){
 		<tr>
 		<td align="right">
 			<select name="searchCondition" class="ct_input_g" style="width:80px">
-			<%-- /////////////////////// EL / JSTL 적용으로 주석 처리 ////////////////////////
+				<%-- /////////////////////// EL / JSTL 적용으로 주석 처리 ////////////////////////
 				<option value="0" <%= (searchCondition.equals("0") ? "selected" : "")%>>상품번호</option>
 				<option value="1" <%= (searchCondition.equals("1") ? "selected" : "")%>>상품명</option>
 				<option value="2" <%= (searchCondition.equals("2") ? "selected" : "")%>>상품가격</option>
-			/////////////////////// EL / JSTL 적용으로 주석 처리 //////////////////////// --%>
+				/////////////////////// EL / JSTL 적용으로 주석 처리 //////////////////////// --%>
 				<option value="0" ${ ! empty search.searchCondition && search.searchCondition==0 ? "selected" : "" }>상품번호</option>
 				<option value="1" ${ ! empty search.searchCondition && search.searchCondition==1 ? "selected" : "" }>상품명</option>
 				<option value="2" ${ ! empty search.searchCondition && search.searchCondition==2 ? "selected" : "" }>상품가격</option>
 			</select>
-			<%--<input 	type="text" name="searchKeyword" value="<%= searchKeyword %>"  class="ct_input_g" 
-							style="width:200px; height:20px" >--%>
-			<input type="text" name="searchKeyword" 
-						value="${! empty search.searchKeyword ? search.searchKeyword : ""}"  
-						class="ct_input_g" style="width:200px; height:20px" > 				
+			<input 	type="text" name="searchKeyword" value="${ ! empty search.searchKeyword ? search.searchKeyword : ""}"  class="ct_input_g" 
+							style="width:200px; height:20px" >
 		</td>
 		<td align="right" width="70">
 			<table border="0" cellspacing="0" cellpadding="0">
@@ -88,7 +87,7 @@ function fncGetProductList(currentPage){
 						<img src="/images/ct_btnbg01.gif" width="17" height="23"/>
 					</td>
 					<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top:3px;">
-						<a href="javascript:fncGetProductList('${search.currentPage }');">검색</a>
+						<a href="javascript:fncGetProductList('1');">검색</a>
 					</td>
 					<td width="14" height="23">
 						<img src="/images/ct_btnbg03.gif" width="14" height="23">
@@ -102,13 +101,8 @@ function fncGetProductList(currentPage){
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:10px;">
 	<tr>
-		<%--
 		<td colspan="11" >
-		전체  <%= resultPage.getTotalCount() %> 건수,	현재 <%= resultPage.getCurrentPage() %> 페이지
-		</td>
-		--%>
-		<td colspan="11" >
-			전체 ${resultPage.totalCount } 건수, 현재 ${resultPage.currentPage }  페이지
+		전체  ${ resultPage.totalCount} 건수,	현재 ${ resultPage.currentPage} 페이지
 		</td>
 	</tr>
 	<tr>
@@ -122,56 +116,76 @@ function fncGetProductList(currentPage){
 		<td class="ct_line02"></td>
 		<td class="ct_list_b">현재상태</td>	
 	</tr>
-	<%-- /////////////////////// EL / JSTL 적용으로 주석 처리 ////////////////////////
+		<%-- /////////////////////// EL / JSTL 적용으로 주석 처리 ////////////////////////
 	<tr>
 		<td colspan="11" bgcolor="808285" height="1"></td>
 	</tr>
 	<%
 			for(int i=0; i<list.size(); i++) {
-			Product vo1 = list.get(i);
+			Product product = list.get(i);
 	%>
-		
 	<tr class="ct_list_pop">
 		<td align="center"><%= i + 1 %></td>
 		<td></td>
-				
 		<td align="left">
-		<a href="/updateProductView.do?prodNo=<%=vo1.getProdNo()%>"><%=vo1.getProdName() %></a>
+		<a href="/updateProductView.do?prodNo=<%=product.getProdNo()%>"><%=product.getProdName() %></a>
 		</td>
-		
 		<td></td>
-		<td align="left"><%=vo1.getPrice() %></td>
+		<td align="left"><%=product.getPrice() %></td>
 		<td></td>
-		<td align="left"><%=vo1.getRegDate() %></td>
+		<td align="left"><%=product.getRegDate() %></td>
 		<td></td>
 		<td align="left">
-		
+			<%if (product.getProTranCode().equals("0")) {%>
 			판매중
-		<% } %>
+			<%}else if(product.getProTranCode().equals("1")){  %>
+			구매완료 	
+					<a href="/updateTranCodeByProd.do?prodNo=<%=product.getProdNo() %>&tranCode=2">배송하기</a>
+			<%} else if(product.getProTranCode().equals("2")) {%>
+			배송중
+			<%} else if(product.getProTranCode().equals("3")) {%>
+			배송완료
+			<%}} %>
 		</td>	
 	</tr>
 	/////////////////////// EL / JSTL 적용으로 주석 처리 //////////////////////// --%>
 	<c:set var="i" value="0" />
 	<c:forEach var="product" items="${list}">
-		<c:set var="i" value="${i+1 }" />
-		<tr class="ct_list_pop">
-			<td align="center">${i}</td>
+		<c:set var="i" value="${i+1}"/>
+		<tr class="st_list_pop">
+			<td align="center">${i} </td>
 			<td></td>
-			<td align="Left"><a href="/updateProductView.do?prodNo=${product.prodNo}">${product.prodName }</a></td>
-			<td></td>
-			<td align="Left">${product.price}</td>
-			<td></td>
-			<td align="Left">${product.regDate}</td>
-			<td></td>
-			<td align="Left">판매중	</td>
-		</tr>
-		<tr>
-		<td colspan="11" bgcolor="D6D7D6" height="1"></td>
+			<td align="left"><a href="/updateProductView.do?prodNo=${product.prodNo}">${product.prodName}</a>
+		</td>
+		<td></td>
+		<td align="left">${product.price}</td>
+		<td></td>
+		<td align="left">${product.regDate}</td>
+		<td></td>
+		<td align="left">
+		<c:choose>
+				<c:when test= "${product.proTranCode=='0'}">
+				판매중
+				</c:when>
+				<c:when test= "${product.proTranCode=='1'}">
+				구매완료 	
+					<a href="/updateTranCodeByProd.do?prodNo=${product.prodNo}&tranCode=2">배송하기</a>
+				</c:when>
+				<c:when test= "${product.proTranCode=='2' }">
+				배송중
+				</c:when>
+				<c:when test= "${product.proTranCode=='3'}">
+				배송완료
+				</c:when>
+		</c:choose>
+		</td>
 	</tr>
-	</c:forEach>	
+	<tr>
+		<td colspan="11" bgcolor="D6D7D6" height="1"></td>
+	</tr>	
+	</c:forEach>
 </table>
 
-<!-- PageNavigation Start... -->
 <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:10px;">
 	<tr>
 		<td align="center">
@@ -192,9 +206,9 @@ function fncGetProductList(currentPage){
 			<% }else{ %>
 					<a href="javascript:fncGetProductList('<%=resultPage.getEndUnitPage()+1%>')">이후 ▶</a>
 			<% } %>
-				 /////////////////////// EL / JSTL 적용으로 주석 처리 //////////////////////// --%>
-			
-					<jsp:include page="../common/pageNavigatorProduct.jsp"/>	
+	 /////////////////////// EL / JSTL 적용으로 주석 처리 //////////////////////// --%>
+
+		<jsp:include page="../common/pageNavigatorUser.jsp"/>	
 		
     	</td>
 	</tr>

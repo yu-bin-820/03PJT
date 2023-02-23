@@ -4,10 +4,12 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.model2.mvc.common.Page;
 import com.model2.mvc.common.Search;
 import com.model2.mvc.framework.Action;
+import com.model2.mvc.service.domain.User;
 import com.model2.mvc.service.product.ProductService;
 import com.model2.mvc.service.product.impl.ProductServiceImpl;
 
@@ -47,17 +49,18 @@ public class ListProductAction extends Action{
 		request.setAttribute("list", map.get("list"));
 		request.setAttribute("search", search);
 		request.setAttribute("resultPage", resultPage);
-		char c = 'm';
+		System.out.println("jsp≥—∞‹¡Ÿ "+map.get("list"));
+		if(request.getParameter("menu").equals("manage")) {
+			
+			return "forward:/product/listProduct.jsp";
 		
-		//String searchname = "search";
-		System.out.println(request.getParameter("menu").charAt(0));
-		
-		
-		
-		if(c == request.getParameter("menu").charAt(0))
-		return "forward:/product/listProduct.jsp";
-		else //if(search == (String)request.getParameter("menu"))
-		return "forward:/product/listProductSearch.jsp";
+		}else {
+			HttpSession session=request.getSession();
+			User user = (User)session.getAttribute("user");
+			request.setAttribute("user", user);
+			
+			return "forward:/product/listProductSearch.jsp";
+		}
 	}
 
 	

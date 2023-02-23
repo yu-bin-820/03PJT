@@ -31,16 +31,18 @@ public class ProductDAO {
 		stmt.executeUpdate();
 		
 		con.close();
+		stmt.close();
 	}
 	
 	
 	public Product findProduct(int prodNo) throws Exception {
+		System.out.println("Dao¿¡ findProdcut");
 		Connection con = DBUtil.getConnection();
 		String sql = "select * from product where prod_no=?";
 		PreparedStatement stmt = con.prepareStatement(sql);
 		stmt.setInt(1, prodNo);
 		ResultSet rs = stmt.executeQuery();
-		
+		System.out.println(rs);
 		Product product = null;
 		while(rs.next()) {
 			product = new Product();
@@ -54,6 +56,8 @@ public class ProductDAO {
 			
 		}
 		con.close();
+		rs.close();
+		stmt.close();
 		
 		System.out.println(product);
 		return product;
@@ -73,6 +77,7 @@ public class ProductDAO {
 		stmt.executeUpdate();
 		
 		con.close();
+		stmt.close();
 	}
 	
 	public Map<String,Object> getProductList(Search search) throws Exception {
@@ -82,21 +87,24 @@ public class ProductDAO {
 		Connection con = DBUtil.getConnection();
 		
 		//Original Query ±¸¼º
-		String sql = "select * from Product ";
+		String sql = "select pro.prod_no, pro.prod_name, pro.prod_detail, pro.manufacture_day, "
+				+ " pro.price, pro.image_file, pro.reg_date, NVL(pur.tran_status_code,0) tran_status_code "
+				+ " from product pro, transaction pur "
+				+ " where pro.prod_no=pur.prod_no(+) ";
 		
 		if (search.getSearchCondition() != null) {
 			if (search.getSearchCondition().equals("0")) {
-				sql += " where PROD_NO like '" + search.getSearchKeyword()
+				sql += " and pro.PROD_NO like '" + search.getSearchKeyword()
 						+ "%'";
 			} else if (search.getSearchCondition().equals("1")) {
-				sql += " where PROD_NAME like'" + search.getSearchKeyword()
+				sql += " and pro.PROD_NAME like'" + search.getSearchKeyword()
 						+ "%'";
 			} else if (search.getSearchCondition().equals("2")) {
-				sql += " where PRICE like'" + search.getSearchKeyword()
+				sql += " and pro.PRICE like'" + search.getSearchKeyword()
 				+ "%'";
-			}
+	}
 		}
-		sql += " order by PROD_NO";
+		sql += " order by pro.PROD_NO";
 
 		System.out.println("ProdcutDAO::Original SQL :: " + sql);
 		
@@ -122,6 +130,7 @@ public class ProductDAO {
 			product.setProdDetail(rs.getString("PROD_DETAIL"));
 			product.setManuDate(rs.getString("MANUFACTURE_DAY"));
 			product.setFileName(rs.getString("IMAGE_FILE"));
+			product.setProTranCode(rs.getString("tran_status_code").trim());
 			
 			list.add(product);
 		}
@@ -139,28 +148,27 @@ public class ProductDAO {
 		return map;
 	}
 
-	private int getTotalCount(String sql) throws Exception {
+		private int getTotalCount(String sql) throws Exception {
 			
-		sql = "SELECT COUNT(*) "+
-			         "FROM ( " +sql+ ") countTable";
+			sql = "SELECT COUNT(*) "+
+			          "FROM ( " +sql+ ") countTable";
 			
-		Connection con = DBUtil.getConnection();
-		PreparedStatement pStmt = con.prepareStatement(sql);
-		ResultSet rs = pStmt.executeQuery();
+			Connection con = DBUtil.getConnection();
+			PreparedStatement pStmt = con.prepareStatement(sql);
+			ResultSet rs = pStmt.executeQuery();
 			
-		int totalCount = 0;
-		if( rs.next() ){
-			totalCount = rs.getInt(1);
+			int totalCount = 0;
+			if( rs.next() ){
+				totalCount = rs.getInt(1);
+			}
+			
+			pStmt.close();
+			con.close();
+			rs.close();
+			
+			return totalCount;
 		}
-			
-		pStmt.close();
-		con.close();
-		rs.close();
-			
-		return totalCount;
-	}
-		
-		private String makeCurrentPageSql(String sql , Search search) throws Exception{
+		private String makeCurrentPageSql(String sql , Search search){
 			sql = 	"SELECT * "+ 
 						"FROM (		SELECT inner_table. * ,  ROWNUM AS row_seq " +
 										" 	FROM (	"+sql+" ) inner_table "+
