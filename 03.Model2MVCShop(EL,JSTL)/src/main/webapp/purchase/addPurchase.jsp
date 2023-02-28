@@ -38,7 +38,7 @@
 	</tr>
 	<tr>
 		<td>구매방법</td>
-		<td>${ purchase.paymentOption()}
+		<td>${ purchase.paymentOption}
 
 		</td>
 		<td></td>

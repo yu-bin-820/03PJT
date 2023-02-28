@@ -191,23 +191,22 @@ function fncGetProductList(currentPage){
 <%} %>	
 </table>
 /////////////////////// EL / JSTL 적용으로 주석 처리 //////////////////////// --%>
-	<c:set var="i" value="0" />
-	<c:forEach var="product" items="${list}">
+	<c:if test="${user.role== 'admin'}">
+		<c:set var="i" value="0" />
+		<c:forEach var="product" items="${list}">
 		<c:set var="i" value="${i+1}"/>
-			<c:choose>
-				<c:when test="${user.role== 'admin'}">
-					<tr class="ct_list_pop">
-					<td align="center">${i+1}</td>
-					<td></td>
-					<td align="left">
-						<a href="/getProduct.do?prodNo=${product.prodNo}">${product.prodName}</a>
-					</td>
-					<td></td>
-					<td align="left">${product.price}</td>
-					<td></td>
-					<td align="left">${product.regDate}</td>
-					<td></td>
-					<td align="left">
+			<tr class="ct_list_pop">
+				<td align="center">${i}</td>
+				<td></td>
+				<td align="left">
+					<a href="/getProduct.do?prodNo=${product.prodNo}">${product.prodName}</a>
+				</td>
+				<td></td>
+				<td align="left">${product.price}</td>
+				<td></td>
+				<td align="left">${product.regDate}</td>
+				<td></td>
+				<td align="left">
 					<c:choose>
 						<c:when test= "${product.proTranCode=='0'}">
 							판매중
@@ -222,49 +221,52 @@ function fncGetProductList(currentPage){
 							배송완료
 						</c:when>
 					</c:choose>
-					</td>		
-					</tr>
-					<tr>
-				</c:when>
-				<c:otherwise>
-				<tr class="ct_list_pop">
-			<td align="center">${i+1}</td>
-			<td></td>
-			<td align="left">
-			<c:choose>
-				<c:when test= "${product.proTranCode=='0'|| product.proTranCode==null}">
-									<a href="/getProduct.do?prodNo=${product.prodNo}">${ product.prodName}</a>
-				</c:when>
-				<c:otherwise>
+				</td>		
+			</tr>
+			<tr>
+				<td colspan="11" bgcolor="D6D7D6" height="1"></td>
+			</tr>	
+		</c:forEach>	
+	</c:if>	
+		
+	<c:if test="${user.role== 'user'}">
+	<c:set var="i" value="0" />
+	<c:forEach var="product" items="${list}">
+		<c:set var="i" value="${i+1}"/>
+			<tr class="ct_list_pop">
+				<td align="center">${i}</td>
+				<td></td>
+				<td align="left">
+					<c:choose>
+						<c:when test= "${product.proTranCode=='0'|| product.proTranCode==null}">
+							<a href="/getProduct.do?prodNo=${product.prodNo}">${ product.prodName}</a>
+						</c:when>
+						<c:otherwise>
 								${ product.prodName}
-				</c:otherwise>
-			</c:choose>
-			</td>
-			<td></td>
-			<td align="left">${ product.price}</td>
-			<td></td>
-			<td align="left">${ product.regDate}</td>
-			<td></td>
-			<td align="left">
-			<c:choose>
-				<c:when test= "${product.proTranCode=='0'||product.proTranCode==null}">
-				판매중
-				</c:when>
-				<c:otherwise>
-				재고 없음
-				</c:otherwise>
-			</c:choose>
-
-		</td>	
-	</tr>
-		</c:otherwise>
-	<tr>
-		<td colspan="11" bgcolor="D6D7D6" height="1"></td>
-	</tr>
-
-	</c:choose>
-</c:forEach>
-
+						</c:otherwise>
+					</c:choose>
+				</td>
+				<td></td>
+				<td align="left">${ product.price}</td>
+				<td></td>
+				<td align="left">${ product.regDate}</td>
+				<td></td>
+				<td align="left">
+					<c:choose>
+						<c:when test= "${product.proTranCode=='0'||product.proTranCode==null}">
+							판매중
+						</c:when>
+						<c:otherwise>
+							재고 없음
+						</c:otherwise>
+					</c:choose>
+				</td>		
+			</tr>
+			<tr>
+				<td colspan="11" bgcolor="D6D7D6" height="1"></td>
+			</tr>	
+		</c:forEach>	
+	</c:if>	
 </table>
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:10px;">
@@ -289,7 +291,7 @@ function fncGetProductList(currentPage){
 			<% } %>
 	 /////////////////////// EL / JSTL 적용으로 주석 처리 //////////////////////// --%>
 
-		<jsp:include page="../common/pageNavigatorUser.jsp"/>	
+		<jsp:include page="../common/pageNavigatorProduct.jsp"/>	
 		
     	</td>
 	</tr>

@@ -27,7 +27,7 @@ public class ListPurchaseAction extends Action {
 		Search search=new Search();
 		
 		int currentPage=1;
-		if(request.getParameter("currentPage") != null && request.getParameter("currentPage").equals("")){
+		if(request.getParameter("currentPage") != null && !request.getParameter("currentPage").equals("")){
 			currentPage=Integer.parseInt(request.getParameter("currentPage"));
 		}
 		System.out.println(currentPage);
@@ -40,6 +40,7 @@ public class ListPurchaseAction extends Action {
 		int pageUnit  =  Integer.parseInt(getServletContext().getInitParameter("pageUnit"));//5
 		search.setPageSize(pageSize);//3
 		
+		// Business logic ผ๖วเ
 		HttpSession session = request.getSession();
 		User user = (User)session.getAttribute("user");
 		System.out.println(user);

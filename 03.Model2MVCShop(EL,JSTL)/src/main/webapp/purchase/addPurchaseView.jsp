@@ -155,7 +155,7 @@ function fncAddPurchase() {
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
 			<input type="text" name="receiverName" 	class="ct_input_g" 
-						style="width: 100px; height: 19px" maxLength="20" value="${ user.userName}" />
+						style="width: 100px; height: 19px" maxLength="20" value="${user.userName}" />
 		</td>
 	</tr>
 	<tr>

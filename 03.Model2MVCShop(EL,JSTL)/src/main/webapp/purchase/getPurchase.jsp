@@ -77,14 +77,16 @@
 		<tr>
 			<td width="104" class="ct_write">구매방법</td>
 			<td bgcolor="D6D6D6" width="1"></td>
-			<c:when test= "${purchase.paymentOption eq '1' }">
-			<td class="ct_write01">현금구매</td>
-			</c:when>
-			<c:when test="${purchase.paymentOption eq '2'}">
-			<td class="ct_write01">신용구매</td>
-			</c:when>
+			<td class="ct_write01">
+			<c:if test= "${purchase.paymentOption == '1' }">
+				현금구매
+			</c:if>
+			<c:if test="${purchase.paymentOption == '2'}">
+				신용구매
+			</c:if>
+		</td>
 		</tr>
-		<tr>height="1" colspan="3" bgcolor="D6D6D6"></td>
+		<tr><height="1" colspan="3" bgcolor="D6D6D6"></td>
 		</tr>
 		<tr>
 			<td width="104" class="ct_write">구매자이름</td>

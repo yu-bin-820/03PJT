@@ -208,7 +208,7 @@ function fncGetProductList(currentPage){
 			<% } %>
 	 /////////////////////// EL / JSTL 利侩栏肺 林籍 贸府 //////////////////////// --%>
 
-		<jsp:include page="../common/pageNavigatorUser.jsp"/>	
+		<jsp:include page="../common/pageNavigatorProduct.jsp"/>	
 		
     	</td>
 	</tr>

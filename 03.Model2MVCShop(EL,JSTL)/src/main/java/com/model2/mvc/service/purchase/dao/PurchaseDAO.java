@@ -56,7 +56,7 @@ public class PurchaseDAO {
 			purchase.setDivyRequest(rs.getString("DLVY_REQUEST"));
 			purchase.setDivyDate(rs.getString("DLVY_DATE"));
 			purchase.setOrderDate(rs.getDate("ORDER_DATA"));
-			purchase.setTranCode(rs.getString("TRAN_STATUS_CODE"));
+			purchase.setTranCode(rs.getString("TRAN_STATUS_CODE").trim());
 			
 		}
 		
@@ -106,7 +106,7 @@ public class PurchaseDAO {
 				purchase.setDivyRequest(rs.getString("DLVY_REQUEST"));
 				purchase.setDivyDate(rs.getString("DLVY_DATE"));
 				purchase.setOrderDate(rs.getDate("ORDER_DATA"));
-				purchase.setTranCode(rs.getString("TRAN_STATUS_CODE"));
+				purchase.setTranCode(rs.getString("TRAN_STATUS_CODE").trim());
 				
 				list.add(purchase);
 				if(!rs.next())
@@ -115,9 +115,10 @@ public class PurchaseDAO {
 	//System.out.println("list.size() :"+list.size());
 	//==> totalCount 정보 저장
 	map.put("totalCount", new Integer(totalCount));
+	System.out.println(totalCount);
 	//==> currentPage 의 게시물 정보 갖는 List 저장
 	map.put("list", list);
-	//System.out.println("map().size() :"+map.size());
+	System.out.println("map().size() :"+map.size());
 	
 	con.close();
 	rs.close();
@@ -152,7 +153,7 @@ public class PurchaseDAO {
 		stmt.setString(5, purchase.getReceiverPhone());
 		stmt.setString(6, purchase.getDivyAddr());
 		stmt.setString(7, purchase.getDivyRequest());
-		stmt.setString(8, purchase.getTranCode());
+		stmt.setString(8, purchase.getTranCode().trim());
 		stmt.setString(9, purchase.getDivyDate());
 		
 		int i = stmt.executeUpdate();
@@ -268,7 +269,7 @@ public class PurchaseDAO {
 									"	WHERE ROWNUM <="+search.getCurrentPage()*search.getPageSize()+" ) " +
 					"WHERE row_seq BETWEEN "+((search.getCurrentPage()-1)*search.getPageSize()+1) +" AND "+search.getCurrentPage()*search.getPageSize();
 		
-		System.out.println("UserDAO :: make SQL :: "+ sql);	
+		System.out.println("PurchaseDAO :: make SQL :: "+ sql);	
 		
 		return sql;
 	}

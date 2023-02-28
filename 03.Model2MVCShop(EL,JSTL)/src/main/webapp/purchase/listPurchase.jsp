@@ -25,9 +25,12 @@
 
 <script type="text/javascript">
 <!--
-function fncGetPurchaseList(){
+//검색 / page 두가지 경우 모두 Form 전송을 위해 JavaScrpt 이용  
+function fncGetPurchaseList(currentPage){
+	document.getElementById("currentPage").value = currentPage;
 	document.detailForm.submit();
-}-->
+}
+-->
 </script>
 </head>
 
@@ -75,51 +78,43 @@ function fncGetPurchaseList(){
 	<c:set var="i" value="0" />
 	<c:forEach var="purchase" items="${map}">
 		<c:set var="i" value="${i+1}"/>
-		
-		
-		
-	<tr class="ct_list_pop">
-		<td align="center">
-			<a href="/getPurchase.do?tranNo=${ purchase.tranNo}">${i+1}</a>
-		</td>
-		<td></td>
-		<td align="left">
-			<a href="/getUser.do?userId=${ user.userId}">${user.userId}</a>
-		</td>
-		<td></td>
-		<td align="left">${purchase.receiverName}</td>
-		<td></td>
-		<td align="left">${purchase.receiverPhone}</td>
-		<td></td>
-		<td align="left">
-			현재	
-			<c:choose>
-				<c:when test="${purchase.tranCode=='1' }">
-				구매완료 상태입니다.
-				</c:when>
-				<c:when test="${purchase.tranCode=='2' }">
-				배송중 상태입니다.
-				<td></td>
-				<td align="left">
-					<a href="/updateTranCode.do?tranNo=${ purchase.tranNo}&tranCode=3">물건도착</a>
-				</c:when>
-				<c:otherwise>
-				배송완료 상태입니다.
-				</c:otherwise>
-			</c:choose>  	
-		</td>
-		<td></td> 
-   		<td align="left">
-</c:forEach>		
-
-		</td>
-	</tr>
-	
+		<tr class="ct_list_pop">
+			<td align="center">
+				<a href="/getPurchase.do?tranNo=${purchase.tranNo}">${i+1}</a>
+			</td>
+			<td></td>
+			<td align="left">
+				<a href="/getUser.do?userId=${user.userId}">${user.userId}</a>
+			</td>
+			<td></td>
+			<td align="left">${purchase.receiverName}</td>
+			<td></td>
+			<td align="left">${purchase.receiverPhone}</td>
+			<td></td>
+			<td align="left">
+				현재	
+				<c:choose>
+					<c:when test="${purchase.tranCode == '1' }">
+						구매완료 상태입니다.
+					</c:when>
+					<c:when test="${purchase.tranCode == '2' }">
+						배송중 상태입니다.
+						<td></td>
+						<td align="left">
+							<a href="/updateTranCode.do?tranNo=${purchase.tranNo}&tranCode=3">물건도착</a>
+					</c:when>
+					<c:when test="${purchase.tranCode == '3' }">
+						구매완료 상태입니다.
+					</c:when>
+				</c:choose>  	
+			</td>
+			<td></td> 
+   			<td align="left"></td>
+		</tr>
+	</c:forEach>
 	<tr>
 		<td colspan="11" bgcolor="D6D7D6" height="1"></td>
-	</tr>
-
-		
+	</tr>	
 </table>
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:10px;">
@@ -144,7 +139,7 @@ function fncGetPurchaseList(){
 			<% } %>
 	 /////////////////////// EL / JSTL 적용으로 주석 처리 //////////////////////// --%>
 
-		<jsp:include page="../common/pageNavigatorUser.jsp"/>	
+		<jsp:include page="../common/pageNavigatorPurchase.jsp"/>	
 		
     	</td>
 	</tr>
