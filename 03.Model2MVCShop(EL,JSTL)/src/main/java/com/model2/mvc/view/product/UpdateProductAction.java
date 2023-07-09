@@ -78,9 +78,8 @@ if(FileUpload.isMultipartContent(request)) {
 				}// end of for
 				ProductService productService = new ProductServiceImpl();
 				productService.updateProduct(productVO);
-				
-				request.setAttribute("productVO", productVO);
-				request.setAttribute("updateChecker", "true");
+				System.out.println(productVO);
+				request.setAttribute("product", productVO);
 			} else {
 				int overSize = (request.getContentLength()/1000000);
 				System.out.println("<script>alert('파일의 크기는 100MB까지 입니다. 올리신 파일 용량은 " + overSize + "MB입니다.");
@@ -91,7 +90,7 @@ if(FileUpload.isMultipartContent(request)) {
 		}
 
 		
-		return "redirect:/getProduct.do?prodNo=" + prodNo + "&menu=search&updateChecker=true";
+		return "redirect:/getProduct.do?prodNo="+prodNo;
 	}
 
 }

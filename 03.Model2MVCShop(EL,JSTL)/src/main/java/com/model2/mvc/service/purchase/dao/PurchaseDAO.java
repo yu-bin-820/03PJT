@@ -143,7 +143,7 @@ public class PurchaseDAO {
 		
 		System.out.println("PurchaseDAO·Î ³Ñ¾î¿È"+purchase);
 		
-		String sql = "insert into transaction values (seq_product_prod_no.nextval, ?, ?, ?, ?, ?, ?, ?, ? , sysdate,?)";
+		String sql = "insert into transaction values (seq_transaction_tran_no.nextval, ?, ?, ?, ?, ?, ?, ?, ? , sysdate,?)";
 		
 		PreparedStatement stmt = con.prepareStatement(sql);
 		stmt.setInt(1, purchase.getPurchaseProd().getProdNo());

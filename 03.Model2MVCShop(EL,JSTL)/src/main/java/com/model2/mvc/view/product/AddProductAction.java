@@ -28,7 +28,7 @@ public class AddProductAction extends Action {
 		if(FileUpload.isMultipartContent(request)) {
 			
 			String temDir =
-					"c:\\workspace\\01.Model2MVCShop(stu)\\src\\main\\webapp\\images\\uploadFiles\\";
+					"C:\\Users\\majja\\git\\03miniShopProject\\03.Model2MVCShop(EL,JSTL)\\src\\main\\webapp\\images\\uploadFiles";
 			
 			DiskFileUpload fileUpload = new DiskFileUpload();
 			fileUpload.setRepositoryPath(temDir);
@@ -78,7 +78,8 @@ public class AddProductAction extends Action {
 				ProductService productService = new ProductServiceImpl();
 				productService.addProduct(productVO);
 				
-				request.setAttribute("productVO", productVO);
+				request.setAttribute("product", productVO);
+				System.out.println(productVO);
 				
 			} else {
 				int overSize = (request.getContentLength()/1000000);
@@ -109,7 +110,7 @@ public class AddProductAction extends Action {
 		return "forward:/product/addProductView.jsp";
 		// ?쿼리 실행 결과 판단은? <-- 추측 : 널체크를 view페이지에서 js로 하고 상품 조회후 상품 번호로 where조건을 걸어 쿼리를 하므로 무조건 1이 나오기때문에 생략
 	 */
-		return "forward:/product/getProductView.jsp?menu=search";
+		return "forward:/product/addProduct.jsp";
 	}// end of AddProduct execute()
 
 }
